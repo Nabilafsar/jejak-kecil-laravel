@@ -67,7 +67,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ url('/register') }}"
+                    <a href="/register"
                         class="font-montserrat font-semibold text-white text-[14px] bg-[#033E8a] px-5 py-2 rounded-full hover:bg-primary-dark transition-colors shadow-md">
                         Sign up
                     </a>

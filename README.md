@@ -438,7 +438,7 @@ php artisan key:generate
 Buat database MySQL:
 
 ```sql
-CREATE DATABASE jejak_kecil;
+CREATE DATABASE Jejak-Kecil;
 ```
 
 ---
@@ -446,7 +446,7 @@ CREATE DATABASE jejak_kecil;
 ## 7. Konfigurasi .env
 
 ```env
-DB_DATABASE=jejak_kecil
+DB_DATABASE=Jejak-Kecil
 DB_USERNAME=root
 DB_PASSWORD=
 ```
@@ -457,8 +457,20 @@ DB_PASSWORD=
 
 ```bash
 php artisan migrate
-```
 
+masukkan sql dibawah ini untuk data admin
+```
+INSERT INTO pengguna
+(nama, email, password, role, created_at, updated_at)
+VALUES
+(
+    'Administrator',
+    'admin@jejakkecil.com',
+    '\$2y\$12\$Xtml25Mf9Uy.Yv/5hwSgveKdbD1dW08F4mk2tH5bOotohdSlPr3wu',
+    'admin',
+    NOW(),
+    NOW()
+);
 ---
 
 ## 9. Jalankan Server
