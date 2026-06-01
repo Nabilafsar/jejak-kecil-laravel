@@ -1,8 +1,6 @@
 {{-- resources/views/about.blade.php --}}
 
-@php
-    $title = "Dashboard";
-@endphp
+
 
 @include('layouts.header')
 
@@ -43,7 +41,7 @@
         <div class="max-w-[1200px] mx-auto px-[60px] py-20 flex items-center gap-16">
     
             <!-- LEFT: stacked photos -->
-            <div class="flex-1 relative min-h-[420px] flex-shrink-0">
+            <div class="flex-1 relative min-h-[420px] shrink-0">
                 <div
                     class="absolute top-0 left-0 w-[55%] rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(3,62,138,.15)] z-10">
                     <img src="{{ asset('assets/img/gambar1.jpg') }}"
@@ -145,43 +143,43 @@
         <div class="max-w-[1000px] mx-auto grid grid-cols-3 gap-3 ]">
 
             <!-- Row 1 -->
-            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-[4/3]">
+            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-4/3">
                 <img src="{{ asset('assets/img/gambar1.jpg') }}" alt="kids learning"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
             </div>
-            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-[4/3]">
+            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-4/3">
                 <img src="{{ asset('assets/img/gambar2.jpg') }}" alt="classroom"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
             </div>
-            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-[4/3]">
+            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-4/3">
                 <img src="{{ asset('assets/img/gambar3.jpg') }}" alt="study"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
             </div>
 
             <!-- Row 2 -->
-            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-[4/3]">
+            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-4/3">
                 <img src="{{ asset('assets/img/gambar4.jpg') }}" alt="children"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
             </div>
-            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-[4/3]">
+            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-4/3">
                 <img src="{{ asset('assets/img/gambar5.jpg') }}" alt="reading"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
             </div>
-            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-[4/3]">
+            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-4/3">
                 <img src="{{ asset('assets/img/gambar6.jpg') }}" alt="learning"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
             </div>
 
             <!-- Row 3 -->
-            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-[4/3]">
+            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-4/3">
                 <img src="{{ asset('assets/img/gambar7.jpg') }}" alt="art class"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
             </div>
-            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-[4/3]">
+            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-4/3">
                 <img src="{{ asset('assets/img/gambar8.jpg') }}" alt="group study"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
             </div>
-            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-[4/3]">
+            <div class="rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,.3)] aspect-4/3">
                 <img src="{{ asset('assets/img/gambar9.jpg') }}" alt="kids reading"
                     class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
             </div>
@@ -195,7 +193,7 @@
         <div
             class="absolute -bottom-20 -left-20 w-72 h-72 rounded-full border-[28px] border-white/10 pointer-events-none">
         </div>
-        <div class="absolute top-10 -left-16 w-48 h-48 rounded-full border-[20px] border-white/10 pointer-events-none">
+        <div class="absolute top-10 -left-16 w-48 h-48 rounded-full border-20 border-white/10 pointer-events-none">
         </div>
 
         <!-- Dekorasi lingkaran kanan -->
@@ -228,7 +226,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -239,7 +237,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -250,7 +248,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -261,7 +259,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -272,7 +270,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -284,7 +282,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -295,7 +293,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -306,7 +304,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -322,7 +320,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -333,7 +331,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -344,7 +342,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -355,7 +353,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -366,7 +364,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -378,7 +376,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -389,7 +387,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -400,7 +398,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -416,7 +414,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -427,7 +425,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -438,7 +436,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -449,7 +447,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -460,7 +458,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -472,7 +470,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
@@ -483,7 +481,7 @@
                     <div class="bg-white rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-[#033E8a] text-[12px]">Nabil_afsar</span>
                         </div>
@@ -494,7 +492,7 @@
                     <div class="bg-[#033E8a] rounded-2xl p-5 shadow-lg flex flex-col gap-3">
                         <div class="flex items-center gap-2">
                             <div
-                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center flex-shrink-0">
+                                class="w-8 h-8 rounded-full bg-[#4b9fe1] flex items-center justify-center shrink-0">
                                 <span class="text-white font-bold text-[11px]">N</span></div>
                             <span class="font-montserrat font-semibold text-white text-[12px]">Nabil_afsar</span>
                         </div>
