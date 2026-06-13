@@ -7,6 +7,7 @@ use App\Http\Controllers\Pengguna\OnboardingController;
 use App\Http\Controllers\Pengguna\ModulController;
 use App\Http\Controllers\Pengguna\KonsultasiController;
 use App\Http\Controllers\Pengguna\ReportController;
+use App\Http\Controllers\Pengguna\ProfilController;
 
 
 Route::get('/', function () {
@@ -108,5 +109,31 @@ Route::middleware('auth')->group(function () {
     Route::get('/pengguna/report', [ReportController::class, 'index'])
         ->name('pengguna.report.index');
 
+        // gamifikasi
+
+        Route::get('/gamifikasi', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'index'])
+            ->name('pengguna.gamifikasi.index');
+        
+        Route::post('/gamifikasi/beli-avatar', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'beliAvatar'])
+            ->name('pengguna.gamifikasi.beli');
+        
+        Route::post('/gamifikasi/pakai-avatar', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'pakaiAvatar'])
+            ->name('pengguna.gamifikasi.pakai');
+        
+        Route::get('/gamifikasi/riwayat', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'riwayat'])
+            ->name('pengguna.gamifikasi.riwayat');
 });
+
+// ── Profil ──────────────────────────────────────────────
+Route::prefix('pengguna/profil')->name('pengguna.profil.')->group(function () {
+    Route::get('/',                    [ProfilController::class, 'index'])         ->name('index');
+    Route::get('/edit-profil',         [ProfilController::class, 'editProfil'])    ->name('edit_profil');
+    Route::post('/update-profil',      [ProfilController::class, 'updateProfil'])  ->name('update_profil');
+    Route::get('/edit-anak',           [ProfilController::class, 'editAnak'])      ->name('edit_anak');
+    Route::post('/update-anak',        [ProfilController::class, 'updateAnak'])    ->name('update_anak');
+    Route::get('/ubah-password',       [ProfilController::class, 'ubahPassword'])  ->name('ubah_password');
+    Route::post('/update-password',    [ProfilController::class, 'updatePassword'])->name('update_password');
+    Route::post('/logout',             [ProfilController::class, 'logout'])        ->name('logout');
+});
+
 

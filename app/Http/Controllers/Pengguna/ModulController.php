@@ -8,6 +8,7 @@ use App\Models\Kuis;
 use App\Models\ProgressAnak;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\TransaksiPoin;
 
 class ModulController extends Controller
 {
@@ -93,58 +94,66 @@ class ModulController extends Controller
      * Submit jawaban kuis & redirect ke halaman result
      */
     public function submitQuiz(Request $request, $id)
-    {
-        $modul    = Modul::with('kuis')->findOrFail($id);
-        $soalList = $modul->kuis;
-        $anak     = Auth::user()->anak;
+{
+    $modul    = Modul::with('kuis')->findOrFail($id);
+    $soalList = $modul->kuis;
+    $anak     = Auth::user()->anak;
 
-        $benar      = 0;
-        $totalPoin  = 0;
+    $benar     = 0;
+    $totalPoin = 0;
 
-        foreach ($soalList as $soal) {
-            $jawaban = $request->input('jawaban_' . $soal->id);
-            if ($jawaban === $soal->jawaban_benar) {
-                $benar++;
-                $totalPoin += $soal->poin;
-            }
+    foreach ($soalList as $soal) {
+        $jawaban = $request->input('jawaban_' . $soal->id);
+        if ($jawaban === $soal->jawaban_benar) {
+            $benar++;
+            $totalPoin += $soal->poin;
         }
-
-        $total   = $soalList->count();
-        $akurasi = $total > 0 ? round(($benar / $total) * 100) : 0;
-
-        // Update progress anak
-        if ($anak) {
-            $progress = ProgressAnak::where('id_anak', $anak->id)
-                ->where('id_modul', $modul->id)
-                ->first();
-
-            if ($progress) {
-                $progress->update([
-                    'skor'                => $akurasi,
-                    'status'              => 'selesai',
-                    'persentase_progress' => 100,
-                    'tanggal_selesai'     => now(),
-                ]);
-            }
-
-            // Tambahkan poin ke total_poin anak
-            $anak->increment('total_poin', $totalPoin);
-        }
-
-        // Simpan hasil ke session untuk ditampilkan di result
-        session([
-            'hasil_kuis' => [
-                'modul_id'   => $modul->id,
-                'judul'      => $modul->judul_modul,
-                'benar'      => $benar,
-                'total'      => $total,
-                'akurasi'    => $akurasi,
-                'total_poin' => $totalPoin,
-            ]
-        ]);
-
-        return redirect()->route('pengguna.modul.result', $id);
     }
+
+    $total   = $soalList->count();
+    $akurasi = $total > 0 ? round(($benar / $total) * 100) : 0;
+
+    if ($anak) {
+        $progress = ProgressAnak::where('id_anak', $anak->id)
+            ->where('id_modul', $modul->id)
+            ->first();
+
+        if ($progress) {
+            $progress->update([
+                'skor'                => $akurasi,
+                'status'              => 'selesai',
+                'persentase_progress' => 100,
+                'tanggal_selesai'     => now(),
+            ]);
+        }
+
+        // Tambah poin + catat transaksi
+        $anak->total_poin += $totalPoin;
+        $anak->save();
+
+        TransaksiPoin::create([
+            'id_anak'        => $anak->id,
+            'id_avatar_shop' => null,
+            'tipe'           => 'kredit',
+            'jumlah_poin'    => $totalPoin,
+            'keterangan'     => 'Selesai Kuis: ' . $modul->judul_modul,
+            'saldo_setelah'  => $anak->total_poin,
+        ]);
+    }
+
+    session([
+        'hasil_kuis' => [
+            'modul_id'   => $modul->id,
+            'judul'      => $modul->judul_modul,
+            'benar'      => $benar,
+            'total'      => $total,
+            'akurasi'    => $akurasi,
+            'total_poin' => $totalPoin,
+        ]
+    ]);
+
+    return redirect()->route('pengguna.modul.result', $id);
+}
 
     /**
      * Halaman hasil kuis
@@ -161,4 +170,5 @@ class ModulController extends Controller
 
         return view('pengguna.modul.result', compact('modul', 'hasilKuis'));
     }
+    
 }
