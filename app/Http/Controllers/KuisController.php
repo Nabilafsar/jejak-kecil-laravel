@@ -6,6 +6,7 @@ use App\Models\Kuis;
 use App\Models\Modul;
 use App\Http\Controllers\LogHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class KuisController extends Controller
 {
@@ -34,9 +35,10 @@ class KuisController extends Controller
             'poin'          => 'required|integer|min:1',
         ]);
 
-        $kuis = Kuis::create($request->all());
-
-        LogHelper::catat('tambah', 'kuis', $kuis->id, 'Menambahkan kuis: ' . $kuis->modul->judul_modul);
+        DB::transaction(function () use ($request) {
+            $kuis = Kuis::create($request->all());
+            LogHelper::catat('tambah', 'kuis', $kuis->id, 'Menambahkan kuis: ' . $kuis->modul->judul_modul);
+        });
 
         return redirect()->route('admin.quizzes.index')
                          ->with('success', 'Kuis berhasil ditambahkan.');
@@ -64,9 +66,10 @@ class KuisController extends Controller
             'poin'          => 'required|integer|min:1',
         ]);
 
-        $kuis->update($request->all());
-
-        LogHelper::catat('update', 'kuis', $kuis->id, 'Mengupdate kuis id: ' . $kuis->id);  
+        DB::transaction(function () use ($request, $kuis) {
+            $kuis->update($request->all());
+            LogHelper::catat('update', 'kuis', $kuis->id, 'Mengupdate kuis id: ' . $kuis->id);
+        });
 
         return redirect()->route('admin.quizzes.index')
                          ->with('success', 'Kuis berhasil diupdate.');
@@ -75,9 +78,11 @@ class KuisController extends Controller
     public function destroy(int $id)
     {
         $kuis = Kuis::findOrFail($id);
-        $kuis->delete();
 
-        LogHelper::catat('hapus', 'kuis', $id, 'Menghapus kuis id: ' . $id);
+        DB::transaction(function () use ($kuis, $id) {
+            $kuis->delete();
+            LogHelper::catat('hapus', 'kuis', $id, 'Menghapus kuis id: ' . $id);
+        });
 
         return redirect()->route('admin.quizzes.index')
                          ->with('success', 'Kuis berhasil dihapus.');

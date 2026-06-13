@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class SettingController extends Controller
 {
@@ -16,7 +17,6 @@ class SettingController extends Controller
         return view('admin.settings');
     }
 
-    // Update Profil
     public function updateProfil(Request $request)
     {
         $request->validate([
@@ -24,53 +24,53 @@ class SettingController extends Controller
             'email' => 'required|email|unique:pengguna,email,' . Auth::user()->id,
         ]);
 
-        $pengguna = Pengguna::findOrFail(Auth::user()->id);
-        $pengguna->update([
-            'nama'  => $request->nama,
-            'email' => $request->email,
-        ]);
-
-        LogHelper::catat('update', 'pengguna', $pengguna->id, 'Update profil admin');
+        DB::transaction(function () use ($request) {
+            $pengguna = Pengguna::findOrFail(Auth::user()->id);
+            $pengguna->update([
+                'nama'  => $request->nama,
+                'email' => $request->email,
+            ]);
+            LogHelper::catat('update', 'pengguna', $pengguna->id, 'Update profil admin');
+        });
 
         return redirect()->route('admin.settings')
                          ->with('success_profil', 'Profil berhasil diupdate.');
     }
 
-    // Update Password
     public function updatePassword(Request $request)
     {
         $request->validate([
-            'password_baru'    => 'required|string|min:6',
+            'password_baru'       => 'required|string|min:6',
             'konfirmasi_password' => 'required|same:password_baru',
         ]);
 
-        $pengguna = Pengguna::findOrFail(Auth::user()->id);
-        $pengguna->update([
-            'password' => Hash::make($request->password_baru),
-        ]);
-
-        LogHelper::catat('update', 'pengguna', $pengguna->id, 'Update password admin');
+        DB::transaction(function () use ($request) {
+            $pengguna = Pengguna::findOrFail(Auth::user()->id);
+            $pengguna->update([
+                'password' => Hash::make($request->password_baru),
+            ]);
+            LogHelper::catat('update', 'pengguna', $pengguna->id, 'Update password admin');
+        });
 
         return redirect()->route('admin.settings')
                          ->with('success_password', 'Password berhasil diupdate.');
     }
 
-    // Update Informasi Aplikasi
     public function updateAplikasi(Request $request)
     {
         $request->validate([
-            'nama_aplikasi'  => 'required|string|max:255',
-            'deskripsi'      => 'nullable|string',
-            'logo'           => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'nama_aplikasi' => 'required|string|max:255',
+            'deskripsi'     => 'nullable|string',
+            'logo'          => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
+        // Upload file SEBELUM transaction
         $settings = [
             'nama_aplikasi' => $request->nama_aplikasi,
             'deskripsi'     => $request->deskripsi,
         ];
 
         if ($request->hasFile('logo')) {
-            // Hapus logo lama
             $logoLama = config('app_settings.logo');
             if ($logoLama) {
                 Storage::disk('public')->delete($logoLama);
@@ -78,11 +78,13 @@ class SettingController extends Controller
             $settings['logo'] = $request->file('logo')->store('logo', 'public');
         }
 
-        // Simpan ke file config
-        $settingsPath = storage_path('app/settings.json');
-        file_put_contents($settingsPath, json_encode($settings));
+        DB::transaction(function () use ($settings) {
+            // Simpan ke file config
+            $settingsPath = storage_path('app/settings.json');
+            file_put_contents($settingsPath, json_encode($settings));
 
-        LogHelper::catat('update', 'settings', null, 'Update informasi aplikasi');
+            LogHelper::catat('update', 'settings', null, 'Update informasi aplikasi');
+        });
 
         return redirect()->route('admin.settings')
                          ->with('success_aplikasi', 'Informasi aplikasi berhasil diupdate.');

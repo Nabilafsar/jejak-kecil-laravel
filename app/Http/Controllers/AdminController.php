@@ -1,10 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Controllers\LogHelper;
 use App\Models\Pengguna;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -27,14 +29,16 @@ class AdminController extends Controller
             'password' => 'required|string|min:6',
         ]);
 
-        $pengguna = Pengguna::create([
-            'nama'     => $request->nama,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-            'role'     => 'admin',
-        ]);
+        DB::transaction(function () use ($request) {
+            $pengguna = Pengguna::create([
+                'nama'     => $request->nama,
+                'email'    => $request->email,
+                'password' => Hash::make($request->password),
+                'role'     => 'admin',
+            ]);
 
-        LogHelper::catat('tambah', 'pengguna', $pengguna->id, 'Menambahkan pengguna baru: ' . $pengguna->nama);
+            LogHelper::catat('tambah', 'pengguna', $pengguna->id, 'Menambahkan pengguna baru: ' . $pengguna->nama);
+        });
 
         return redirect()->route('admin.users.index')
                          ->with('success', 'Pengguna berhasil ditambahkan.');
