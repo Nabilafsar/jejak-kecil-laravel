@@ -40,7 +40,7 @@ class ProgressAnak extends Model
         return match ($this->status) {
             'belum_dimulai'     => 'Belum Dimulai',
             'sedang_dipelajari' => 'Sedang Dipelajari',
-            'selesai'           => 'Hampir Selesai',
+            'selesai'           => 'Selesai',
             default             => 'Belum Dimulai',
         };
     }

@@ -41,39 +41,48 @@ class ModulController extends Controller
             'tingkat_kesulitan' => 'required|in:mudah,sedang,sulit',
             'id_gaya_belajar'   => 'nullable|exists:gaya_belajar,id',
             'thumbnail'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'kategori'          => 'nullable|string|max:255',
             'tipe_konten'       => 'required|array',
             'tipe_konten.*'     => 'required|in:teks,gambar,video',
             'isi_konten'        => 'required|array',
         ]);
 
-        // Upload thumbnail SEBELUM transaction (file upload tidak bisa di-rollback)
+        // Upload thumbnail SEBELUM transaction
         $thumbnailPath = null;
         if ($request->hasFile('thumbnail')) {
             $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
-        // Siapkan file upload isi konten SEBELUM transaction
+        // Siapkan isi konten SEBELUM transaction
         $isiKontenData = [];
         foreach ($request->tipe_konten as $index => $tipe) {
             $isiKonten = null;
+
             if ($tipe === 'teks') {
                 $isiKonten = $request->isi_konten[$index] ?? null;
+
             } elseif ($tipe === 'gambar') {
                 if ($request->hasFile("isi_konten.$index")) {
                     $isiKonten = $request->file("isi_konten.$index")->store('images', 'public');
                 }
+
             } elseif ($tipe === 'video') {
-                if ($request->hasFile("isi_konten.$index")) {
+                // Cek apakah input berupa URL YouTube atau file upload
+                $inputVideo = $request->isi_konten[$index] ?? null;
+                if ($inputVideo && $this->isYoutubeUrl($inputVideo)) {
+                    // Simpan langsung URL YouTube-nya
+                    $isiKonten = $inputVideo;
+                } elseif ($request->hasFile("isi_konten.$index")) {
                     $isiKonten = $request->file("isi_konten.$index")->store('videos', 'public');
                 }
             }
+
             if ($isiKonten) {
                 $isiKontenData[] = ['tipe_konten' => $tipe, 'isi_konten' => $isiKonten];
             }
         }
 
         DB::transaction(function () use ($request, $thumbnailPath, $isiKontenData) {
-            // Simpan modul
             $modul = Modul::create([
                 'judul_modul'       => $request->judul_modul,
                 'deskripsi'         => $request->deskripsi,
@@ -82,7 +91,6 @@ class ModulController extends Controller
                 'thumbnail'         => $thumbnailPath,
             ]);
 
-            // Simpan isi modul
             foreach ($isiKontenData as $data) {
                 IsiModul::create([
                     'id_modul'    => $modul->id,
@@ -108,11 +116,12 @@ class ModulController extends Controller
             'tingkat_kesulitan' => 'required|in:mudah,sedang,sulit',
             'id_gaya_belajar'   => 'nullable|exists:gaya_belajar,id',
             'thumbnail'         => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'kategori'          => 'nullable|string|max:255',
             'tipe_konten'       => 'required|array',
             'tipe_konten.*'     => 'required|in:teks,gambar,video',
         ]);
 
-        // Upload file SEBELUM transaction
+        // Upload thumbnail SEBELUM transaction
         $thumbnailPath = $modul->thumbnail;
         if ($request->hasFile('thumbnail')) {
             if ($modul->thumbnail) {
@@ -121,53 +130,64 @@ class ModulController extends Controller
             $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
         }
 
-        $isiLama = $modul->isiModul;
+        $isiLama     = $modul->isiModul;
         $contentData = [];
 
         foreach ($request->tipe_konten as $index => $tipe) {
             $isiKonten = null;
+
             if ($tipe === 'teks') {
                 $isiKonten = $request->isi_konten[$index] ?? null;
+
             } elseif ($tipe === 'gambar') {
                 if ($request->hasFile("isi_konten.$index")) {
                     $isiKonten = $request->file("isi_konten.$index")->store('images', 'public');
                 } else {
                     $isiKonten = $request->isi_konten_lama[$index] ?? null;
                 }
+
             } elseif ($tipe === 'video') {
-                if ($request->hasFile("isi_konten.$index")) {
+                $inputVideo = $request->isi_konten[$index] ?? null;
+                if ($inputVideo && $this->isYoutubeUrl($inputVideo)) {
+                    // Simpan URL YouTube langsung
+                    $isiKonten = $inputVideo;
+                } elseif ($request->hasFile("isi_konten.$index")) {
                     $isiKonten = $request->file("isi_konten.$index")->store('videos', 'public');
                 } else {
+                    // Pertahankan nilai lama (bisa URL YouTube atau path file)
                     $isiKonten = $request->isi_konten_lama[$index] ?? null;
                 }
             }
+
             if ($isiKonten) {
                 $contentData[] = ['tipe_konten' => $tipe, 'isi_konten' => $isiKonten];
             }
         }
 
-        // Hapus file lama yang tidak dipakai SEBELUM transaction
+        // Hapus file lokal lama yang tidak dipakai (skip jika URL YouTube)
         $isiKontenBaru = array_column($contentData, 'isi_konten');
         foreach ($isiLama as $isi) {
-            if (in_array($isi->tipe_konten, ['gambar', 'video']) && !in_array($isi->isi_konten, $isiKontenBaru)) {
+            if (
+                in_array($isi->tipe_konten, ['gambar', 'video'])
+                && !in_array($isi->isi_konten, $isiKontenBaru)
+                && !$this->isYoutubeUrl($isi->isi_konten)
+            ) {
                 Storage::disk('public')->delete($isi->isi_konten);
             }
         }
 
         DB::transaction(function () use ($request, $modul, $thumbnailPath, $contentData) {
-            // Update modul
             $modul->update([
                 'judul_modul'       => $request->judul_modul,
                 'deskripsi'         => $request->deskripsi,
                 'tingkat_kesulitan' => $request->tingkat_kesulitan,
                 'id_gaya_belajar'   => $request->id_gaya_belajar,
+                'kategori'          => $request->kategori,
                 'thumbnail'         => $thumbnailPath,
             ]);
 
-            // Hapus isi modul lama dari database
             IsiModul::where('id_modul', $modul->id)->delete();
 
-            // Simpan isi modul baru
             foreach ($contentData as $data) {
                 IsiModul::create([
                     'id_modul'    => $modul->id,
@@ -187,12 +207,15 @@ class ModulController extends Controller
     {
         $modul = Modul::findOrFail($id);
 
-        // Hapus file SEBELUM transaction
+        // Hapus file lokal SEBELUM transaction (skip jika URL YouTube)
         if ($modul->thumbnail) {
             Storage::disk('public')->delete($modul->thumbnail);
         }
         foreach ($modul->isiModul as $isi) {
-            if (in_array($isi->tipe_konten, ['gambar', 'video'])) {
+            if (
+                in_array($isi->tipe_konten, ['gambar', 'video'])
+                && !$this->isYoutubeUrl($isi->isi_konten)
+            ) {
                 Storage::disk('public')->delete($isi->isi_konten);
             }
         }
@@ -204,5 +227,14 @@ class ModulController extends Controller
 
         return redirect()->route('admin.modules.index')
                          ->with('success', 'Modul berhasil dihapus.');
+    }
+
+    /**
+     * Cek apakah string adalah URL YouTube
+     */
+    private function isYoutubeUrl(?string $url): bool
+    {
+        if (!$url) return false;
+        return str_contains($url, 'youtube.com') || str_contains($url, 'youtu.be');
     }
 }

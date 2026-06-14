@@ -12,7 +12,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $pengguna = Pengguna::orderBy('created_at', 'asc')->get();
+        $pengguna = Pengguna::orderBy('created_at', 'desc')->get();
         return view('admin.users.index', compact('pengguna'));
     }
 

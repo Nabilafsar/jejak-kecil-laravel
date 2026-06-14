@@ -5,15 +5,16 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ModulController;
+use App\Http\Controllers\Pengguna\ModulController as PenggunaModulController;
 use App\Http\Controllers\KuisController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Pengguna\OnboardingController;
-use App\Http\Controllers\Pengguna\ModulController;
 use App\Http\Controllers\Pengguna\KonsultasiController;
 use App\Http\Controllers\Pengguna\ReportController;
 use App\Http\Controllers\Pengguna\ProfilController;
+
 
 // =============================================
 // Landing Page
@@ -25,11 +26,11 @@ Route::get('/', function () {
 Route::get('/service', function () {
     return view('service');
 })->name('service');
- 
+
 Route::get('/mentor', function () {
     return view('mentor');
 })->name('mentor');
- 
+
 // Route::get('/contact', function () {
 //     return view('contact');
 // })->name('contact');
@@ -38,10 +39,10 @@ Route::get('/mentor', function () {
 // Auth
 // =============================================
 
-    Route::get('/login', [LoginController::class, 'index'])->name('login');
-    Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
-    Route::get('/register', [RegisterController::class, 'index'])->name('register');
-    Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'authenticate'])->name('login.authenticate');
+Route::get('/register', [RegisterController::class, 'index'])->name('register');
+Route::post('/register', [RegisterController::class, 'store'])->name('register.store');
 
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
@@ -50,15 +51,14 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->midd
 // Pengguna (Orang Tua)
 // =============================================
 Route::middleware('auth')->prefix('pengguna')->name('pengguna.')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('pengguna.DashboardPengguna');
-    })->name('DashboardPengguna');
+    Route::get('/dashboard', [\App\Http\Controllers\Pengguna\DashboardPenggunaController::class, 'index'])
+    ->name('DashboardPengguna');
 });
 
 // =============================================
 // Admin
 // =============================================
-Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
 
     // Dashboard Admin
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -106,65 +106,65 @@ Route::middleware('auth')->group(function () {
         ->name('onboarding.store');
 
     // Halaman modul
-    Route::get('/pengguna/modul', [ModulController::class, 'index'])
+    Route::get('/pengguna/modul', [PenggunaModulController::class, 'index'])
         ->name('pengguna.modul.index');
- 
-    Route::get('/pengguna/modul/{id}', [ModulController::class, 'show'])
+
+    Route::get('/pengguna/modul/{id}', [PenggunaModulController::class, 'show'])
         ->name('pengguna.modul.show');
- 
-    Route::get('/pengguna/modul/{id}/quiz', [ModulController::class, 'quiz'])
+
+    Route::get('/pengguna/modul/{id}/quiz', [PenggunaModulController::class, 'quiz'])
         ->name('pengguna.modul.quiz');
- 
-    Route::post('/pengguna/modul/{id}/quiz/submit', [ModulController::class, 'submitQuiz'])
+
+    Route::post('/pengguna/modul/{id}/quiz/submit', [PenggunaModulController::class, 'submitQuiz'])
         ->name('pengguna.modul.quiz.submit');
- 
-    Route::get('/pengguna/modul/{id}/result', [ModulController::class, 'result'])
+
+    Route::get('/pengguna/modul/{id}/result', [PenggunaModulController::class, 'result'])
         ->name('pengguna.modul.result');
 
     // ── Konsultasi ────────────────────────────────────────────────
     Route::get('/pengguna/konsultasi', [KonsultasiController::class, 'index'])
         ->name('pengguna.konsultasi.index');
- 
+
     Route::post('/pengguna/konsultasi/{id}/jadwal', [KonsultasiController::class, 'buatJadwal'])
         ->name('pengguna.konsultasi.buatJadwal');
- 
+
     Route::get('/pengguna/konsultasi/jadwal', [KonsultasiController::class, 'semuaJadwal'])
         ->name('pengguna.konsultasi.jadwal');
- 
+
     Route::get('/pengguna/konsultasi/{idJadwal}/chat', [KonsultasiController::class, 'chat'])
         ->name('pengguna.konsultasi.chat');
- 
+
     Route::post('/pengguna/konsultasi/{idJadwal}/pesan', [KonsultasiController::class, 'kirimPesan'])
         ->name('pengguna.konsultasi.kirimPesan');
-    
+
     Route::get('/pengguna/report', [ReportController::class, 'index'])
         ->name('pengguna.report.index');
 
-        // gamifikasi
+    // gamifikasi
 
-        Route::get('/gamifikasi', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'index'])
-            ->name('pengguna.gamifikasi.index');
-        
-        Route::post('/gamifikasi/beli-avatar', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'beliAvatar'])
-            ->name('pengguna.gamifikasi.beli');
-        
-        Route::post('/gamifikasi/pakai-avatar', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'pakaiAvatar'])
-            ->name('pengguna.gamifikasi.pakai');
-        
-        Route::get('/gamifikasi/riwayat', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'riwayat'])
-            ->name('pengguna.gamifikasi.riwayat');
+    Route::get('/gamifikasi', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'index'])
+        ->name('pengguna.gamifikasi.index');
+
+    Route::post('/gamifikasi/beli-avatar', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'beliAvatar'])
+        ->name('pengguna.gamifikasi.beli');
+
+    Route::post('/gamifikasi/pakai-avatar', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'pakaiAvatar'])
+        ->name('pengguna.gamifikasi.pakai');
+
+    Route::get('/gamifikasi/riwayat', [App\Http\Controllers\Pengguna\GamifikasiController::class, 'riwayat'])
+        ->name('pengguna.gamifikasi.riwayat');
 });
 
 // ── Profil ──────────────────────────────────────────────
 Route::prefix('pengguna/profil')->name('pengguna.profil.')->group(function () {
-    Route::get('/',                    [ProfilController::class, 'index'])         ->name('index');
-    Route::get('/edit-profil',         [ProfilController::class, 'editProfil'])    ->name('edit_profil');
-    Route::post('/update-profil',      [ProfilController::class, 'updateProfil'])  ->name('update_profil');
-    Route::get('/edit-anak',           [ProfilController::class, 'editAnak'])      ->name('edit_anak');
-    Route::post('/update-anak',        [ProfilController::class, 'updateAnak'])    ->name('update_anak');
-    Route::get('/ubah-password',       [ProfilController::class, 'ubahPassword'])  ->name('ubah_password');
-    Route::post('/update-password',    [ProfilController::class, 'updatePassword'])->name('update_password');
-    Route::post('/logout',             [ProfilController::class, 'logout'])        ->name('logout');
+    Route::get('/', [ProfilController::class, 'index'])->name('index');
+    Route::get('/edit-profil', [ProfilController::class, 'editProfil'])->name('edit_profil');
+    Route::post('/update-profil', [ProfilController::class, 'updateProfil'])->name('update_profil');
+    Route::get('/edit-anak', [ProfilController::class, 'editAnak'])->name('edit_anak');
+    Route::post('/update-anak', [ProfilController::class, 'updateAnak'])->name('update_anak');
+    Route::get('/ubah-password', [ProfilController::class, 'ubahPassword'])->name('ubah_password');
+    Route::post('/update-password', [ProfilController::class, 'updatePassword'])->name('update_password');
+    Route::post('/logout', [ProfilController::class, 'logout'])->name('logout');
 });
 
 

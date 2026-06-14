@@ -33,6 +33,7 @@ class KuisController extends Controller
             'pilihan_d'     => 'required|string|max:255',
             'jawaban_benar' => 'required|in:A,B,C,D',
             'poin'          => 'required|integer|min:1',
+            'urutan'        => 'required|integer|min:1',
         ]);
 
         DB::transaction(function () use ($request) {
@@ -64,6 +65,7 @@ class KuisController extends Controller
             'pilihan_d'     => 'required|string|max:255',
             'jawaban_benar' => 'required|in:A,B,C,D',
             'poin'          => 'required|integer|min:1',
+            'urutan'        => 'required|integer|min:1',
         ]);
 
         DB::transaction(function () use ($request, $kuis) {

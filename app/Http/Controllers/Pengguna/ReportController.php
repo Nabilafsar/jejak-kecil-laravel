@@ -20,16 +20,16 @@ class ReportController extends Controller
         // Jika belum ada data anak, tetap tampilkan halaman report dengan data kosong
         if (!$anak) {
             return view('pengguna.report.index', [
-                'anak'              => null,
-                'totalBelajar'      => 0,
-                'totalWaktu'        => '0 Jam',
-                'totalPoin'         => 0,
-                'modulSelesai'      => 0,
-                'totalModul'        => 0,
-                'skorPerModul'      => collect(),
+                'anak' => null,
+                'totalBelajar' => 0,
+                'totalWaktu' => '0 Jam',
+                'totalPoin' => 0,
+                'modulSelesai' => 0,
+                'totalModul' => 0,
+                'skorPerModul' => collect(),
                 'modulSudahSelesai' => collect(),
-                'rekomendasiModul'  => Modul::inRandomOrder()->first(),
-                'rataRataSkor'      => 0,
+                'rekomendasiModul' => Modul::inRandomOrder()->first(),
+                'rataRataSkor' => 0,
             ]);
         }
 
@@ -39,18 +39,18 @@ class ReportController extends Controller
             ->get();
 
         // ── Statistik Utama ──────────────────────────────────────
-        $totalModul   = $semuaProgress->count();
+        $totalModul = Modul::count();
         $modulSelesai = $semuaProgress->where('status', 'selesai')->count();
-        $totalPoin    = $anak->total_poin ?? 0;
+        $totalPoin = $anak->total_poin ?? 0;
 
         $totalBelajar = $totalModul > 0
-            ? (int) round($semuaProgress->avg('persentase_progress'))
+            ? (int) round($semuaProgress->sum('persentase_progress') / $totalModul)
             : 0;
 
-        $totalMenitBelajar = $modulSelesai * 15;
-        $jamBelajar        = intdiv($totalMenitBelajar, 60);
-        $menitBelajar      = $totalMenitBelajar % 60;
-        $totalWaktu        = $jamBelajar > 0
+        $totalMenitBelajar = $modulSelesai * 15; // Asumsi 15 menit per modul
+        $jamBelajar = intdiv($totalMenitBelajar, 60);
+        $menitBelajar = $totalMenitBelajar % 60;
+        $totalWaktu = $jamBelajar > 0
             ? $jamBelajar . ' Jam' . ($menitBelajar > 0 ? ' ' . $menitBelajar . 'm' : '')
             : ($menitBelajar > 0 ? $menitBelajar . ' Menit' : '0 Jam');
 
@@ -59,7 +59,7 @@ class ReportController extends Controller
             ->whereNotNull('skor')
             ->map(fn($p) => [
                 'judul' => $p->modul?->judul_modul ?? '-',
-                'skor'  => $p->skor,
+                'skor' => $p->skor,
             ])
             ->values();
 
@@ -67,14 +67,14 @@ class ReportController extends Controller
         $modulSudahSelesai = $semuaProgress
             ->where('status', 'selesai')
             ->map(fn($p) => [
-                'judul'    => $p->modul?->judul_modul ?? '-',
+                'judul' => $p->modul?->judul_modul ?? '-',
                 'kategori' => $p->modul?->kategori ?? 'Umum',
-                'skor'     => $p->skor,
+                'skor' => $p->skor,
             ])
             ->values();
 
         // ── Rekomendasi Modul Berikutnya ─────────────────────────
-        $idModulSelesai   = $semuaProgress->where('status', 'selesai')->pluck('id_modul');
+        $idModulSelesai = $semuaProgress->where('status', 'selesai')->pluck('id_modul');
         $rekomendasiModul = Modul::whereNotIn('id', $idModulSelesai)->inRandomOrder()->first();
 
         // ── Rata-rata Skor ───────────────────────────────────────

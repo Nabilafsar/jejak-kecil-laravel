@@ -88,7 +88,7 @@
                     ? $modul->progressAnak->firstWhere('id_anak', $anak->id)
                     : null;
                 $persen   = $progress?->persentase_progress ?? 0;
-                $status   = $progress?->status ?? 'belum_dimulai';
+                $status   = $progress?->status ?? 'belum dimulai';
             @endphp
 
             <a href="{{ route('pengguna.modul.show', $modul->id) }}"
@@ -167,7 +167,7 @@
                             </button>
                         @elseif($status === 'selesai')
                             <div class="flex items-center justify-between mb-2">
-                                <span class="font-montserrat text-[#0AADA8] text-xs font-semibold">Hampir Selesai</span>
+                                <span class="font-montserrat text-[#0AADA8] text-xs font-semibold">Selesai</span>
                                 <span class="font-montserrat text-[#033E8A] text-xs font-bold">{{ $persen }}%</span>
                             </div>
                             <div class="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
