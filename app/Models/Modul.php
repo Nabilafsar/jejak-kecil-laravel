@@ -39,9 +39,6 @@ class Modul extends Model
         return $this->hasMany(ProgressAnak::class, 'id_modul');
     }
 
-    /**
-     * Ambil progress milik anak yang sedang login
-     */
     public function progressSaatIni()
     {
         $anak = auth()->user()?->anak;

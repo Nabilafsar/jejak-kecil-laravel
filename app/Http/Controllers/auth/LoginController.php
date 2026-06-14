@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use App\Http\Controllers\LogHelper;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,9 +26,11 @@ class LoginController extends Controller
 
             $user = Auth::user();
 
+            LogHelper::catat('login', 'pengguna', Auth::user()->id, 'Login ke sistem');
+
             // Redirect berdasarkan role
             if ($user->role == 'admin') {
-                return redirect()->route('admin.DashboardAdmin');
+                return redirect()->route('admin.dashboard');
             }
 
             if ($user->role == 'orang_tua') {
@@ -45,6 +47,8 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        LogHelper::catat('logout', 'pengguna', Auth::user()->id, 'Logout dari sistem');
+
         Auth::logout();
 
         $request->session()->invalidate();

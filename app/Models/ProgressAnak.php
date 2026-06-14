@@ -22,26 +22,26 @@ class ProgressAnak extends Model
         'tanggal_selesai' => 'datetime',
     ];
 
+    // Relasi ke Anak (dari main - dibutuhkan role pengguna)
     public function anak(): BelongsTo
     {
         return $this->belongsTo(Anak::class, 'id_anak');
     }
 
+    // Relasi ke Modul (ada di kedua branch)
     public function modul(): BelongsTo
     {
         return $this->belongsTo(Modul::class, 'id_modul');
     }
 
-    /**
-     * Label status yang ramah untuk tampilan
-     */
+    // Accessor label status (dari main - dibutuhkan tampilan frontend)
     public function getLabelStatusAttribute(): string
     {
         return match ($this->status) {
-            'belum_dimulai'    => 'Belum Dimulai',
+            'belum_dimulai'     => 'Belum Dimulai',
             'sedang_dipelajari' => 'Sedang Dipelajari',
-            'selesai'          => 'Hampir Selesai',
-            default            => 'Belum Dimulai',
+            'selesai'           => 'Hampir Selesai',
+            default             => 'Belum Dimulai',
         };
     }
 }

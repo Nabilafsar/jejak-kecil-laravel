@@ -63,7 +63,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ url('/login') }}"
+                    <a href="{{ ('/login') }}"
                         class="font-montserrat font-medium text-gray-700 text-[16px] hover:text-primary transition-colors">
                         Login
                     </a>

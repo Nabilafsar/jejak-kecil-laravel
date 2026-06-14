@@ -27,9 +27,6 @@ class Kuis extends Model
         return $this->belongsTo(Modul::class, 'id_modul');
     }
 
-    /**
-     * Kembalikan semua pilihan sebagai array
-     */
     public function getPilihanAttribute(): array
     {
         $pilihan = [

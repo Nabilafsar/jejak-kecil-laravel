@@ -10,14 +10,18 @@ class GayaBelajar extends Model
 
     protected $fillable = [
         'nama_gaya',
-        'deskripsi'
+        'deskripsi',
     ];
 
+    // Relasi ke Anak (dari branch main)
     public function anak()
     {
-        return $this->hasMany(
-            Anak::class,
-            'id_gaya_belajar'
-        );
+        return $this->hasMany(Anak::class, 'id_gaya_belajar');
+    }
+
+    // Relasi ke Modul (dari branch role-admin)
+    public function modul()
+    {
+        return $this->hasMany(Modul::class, 'id_gaya_belajar');
     }
 }
