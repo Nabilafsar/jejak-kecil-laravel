@@ -1,11 +1,11 @@
 <footer class="bg-white border-t border-gray-100">
 
     <!-- Main Footer Content -->
-    <div class="max-w-[1200px] mx-auto px-[60px] py-12 flex items-start gap-16">
+    <div class="max-w-300 mx-auto px-15 py-12 flex items-start gap-16">
 
         <!-- Left -->
-        <div class="flex-[2]">
-            <p class="font-montserrat text-gray-500 text-[13px] leading-[1.85] max-w-[300px]">
+        <div class="flex-2">
+            <p class="font-montserrat text-gray-500 text-[13px] leading-[1.85] max-w-75">
                 Jejak Kecil is a leading digital media company and creative agency established in 2019,
                 dedicated to fostering a creative community for young people and embodying the Voice of People.
             </p>
@@ -84,10 +84,10 @@
     </div>
 
     <!-- Divider -->
-    <div class="border-t border-gray-200 mx-[60px]"></div>
+    <div class="border-t border-gray-200 mx-15"></div>
 
     <!-- Bottom Footer -->
-    <div class="max-w-[1200px] mx-auto px-[60px] py-8 flex items-center justify-between">
+    <div class="max-w-300 mx-auto px-15 py-8 flex items-center justify-between">
 
         <div class="flex items-center gap-3">
 

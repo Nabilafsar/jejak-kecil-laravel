@@ -12,11 +12,17 @@ class Pengguna extends Authenticatable
         'nama',
         'email',
         'password',
-        'role'
+        'role',
+        'foto'
     ];
 
     protected $hidden = [
         'password',
         'remember_token',
     ];
+
+    public function anak()
+    {
+        return $this->hasOne(Anak::class, 'id_pengguna'); // ← O kapital
+    }
 }

@@ -35,21 +35,21 @@
             <ul class="flex items-center gap-8 list-none m-0 p-0">
 
                 <li>
-                    <a href="#"
+                    <a href="{{  route('about') }}"
                         class="font-montserrat font-medium text-gray-700 text-[16px] hover:text-primary transition-colors">
                         About
                     </a>
                 </li>
 
                 <li>
-                    <a href="#"
+                    <a href="{{ route('service') }}"
                         class="font-montserrat font-medium text-gray-700 text-[16px] hover:text-primary transition-colors">
                         Service
                     </a>
                 </li>
 
                 <li>
-                    <a href="#"
+                    <a href="{{ route('mentor') }}"
                         class="font-montserrat font-medium text-gray-700 text-[16px] hover:text-primary transition-colors">
                         Our Mentor
                     </a>

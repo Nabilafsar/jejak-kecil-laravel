@@ -5,16 +5,16 @@
     <body class="bg-gray-200 flex justify-center items-center pt-14 overflow-hidden">
 
         <form action="{{ route('register.store') }}" method="POST"
-            class="bg-white w-[800px] h-[600px] rounded-[40px] flex shadow-lg animate-[fadeSlide_1s_ease]">
+            class="bg-white w-200 h-150 rounded-[40px] flex shadow-lg animate-[fadeSlide_1s_ease]">
 
             @csrf
 
             <!-- LEFT CONTENT -->
             <div class="pt-12 pl-8">
 
-                <img src="{{ asset('assets/img/Asterisk 3.jpg') }}" class="w-[30px] mb-2">
+                <img src="{{ asset('assets/img/Asterisk 3.jpg') }}" class="w-7.5 mb-2">
 
-                <h2 class="text-[36px] text-[#033E8a] font-bold mb-1 font-montserrat">
+                <h2 class="text-9 text-[#033E8a] font-bold mb-1 font-montserrat">
                     Create an account
                 </h2>
 
@@ -29,7 +29,7 @@
                     </h5>
 
                     <input type="text" name="nama" placeholder="Enter your username" value="{{ old('nama') }}"
-                        class="w-[330px] p-2 mt-1 border border-gray-300 rounded font-montserrat text-[12px]">
+                        class="w-82.5 p-2 mt-1 border border-gray-300 rounded font-montserrat text-[12px]">
 
                     @error('nama')
                         <small class="text-red-500">{{ $message }}</small>
@@ -43,7 +43,7 @@
                     </h5>
 
                     <input type="email" name="email" placeholder="Enter your email" value="{{ old('email') }}"
-                        class="w-[330px] p-2 mt-1 border border-gray-300 rounded font-montserrat text-[12px]">
+                        class="w-82.5 p-2 mt-1 border border-gray-300 rounded font-montserrat text-[12px]">
 
                     @error('email')
                         <small class="text-red-500">{{ $message }}</small>
@@ -57,7 +57,7 @@
                     </h5>
 
                     <input type="password" name="password" placeholder="Enter your password"
-                        class="w-[330px] p-2 mt-1 border border-gray-300 rounded font-montserrat text-[12px]">
+                        class="w-82.5 p-2 mt-1 border border-gray-300 rounded font-montserrat text-[12px]">
 
                     @error('password')
                         <small class="text-red-500">{{ $message }}</small>
@@ -66,7 +66,7 @@
 
                 <!-- BUTTON -->
                 <button type="submit"
-                    class="w-[330px] p-2 mt-1 rounded-[20px] bg-[#033E8a] text-white cursor-pointer font-montserrat hover:bg-[#022e5a] text-[14px]">
+                    class="w-82.5 p-2 mt-1 rounded-[20px] bg-[#033E8a] text-white cursor-pointer font-montserrat hover:bg-[#022e5a] text-[14px]">
                     Register
                 </button>
 
@@ -78,7 +78,7 @@
                     </p>
 
                     <button type="button"
-                        class="w-[330px] p-2 mb-2 rounded-[20px] border flex items-center justify-center gap-2 text-[#033E8a] hover:bg-gray-100 font-montserrat text-[12px]">
+                        class="w-82.5 p-2 mb-2 rounded-[20px] border flex items-center justify-center gap-2 text-[#033E8a] hover:bg-gray-100 font-montserrat text-[12px]">
 
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg"
                             class="w-5 h-5">
@@ -87,7 +87,7 @@
                     </button>
 
                     <button type="button"
-                        class="w-[330px] p-2 rounded-[20px] border flex items-center justify-center gap-2 text-[#033E8a] hover:bg-indigo-50 font-montserrat text-[12px]">
+                        class="w-82.5 p-2 rounded-[20px] border flex items-center justify-center gap-2 text-[#033E8a] hover:bg-indigo-50 font-montserrat text-[12px]">
 
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg"
                             class="w-5 h-5">
@@ -114,18 +114,18 @@
             <!-- RIGHT IMAGE -->
             <div class="flex items-start pl-7 pt-2">
 
-                <div class="relative w-[380px]">
+                <div class="relative w-95">
 
-                    <img src="{{ asset('assets/img/bintang.png') }}" class="w-[48px] absolute top-[40px] left-[36px] z-10">
+                    <img src="{{ asset('assets/img/bintang.png') }}" class="w-12 absolute top-10 left-9 z-10">
 
                     <img src="{{ asset('assets/img/imgloginregister.jpg') }}"
-                        class="w-[392px] rounded-[44px] pt-[10px] pl-[10px]">
+                        class="w-98 rounded-[44px] pt-2.5 pl-2.5">
 
-                    <h4 class="absolute bottom-[120px] left-[36px] text-white/70 text-[16px] font-montserrat">
+                    <h4 class="absolute bottom-30 left-9 text-white/70 text-[16px] font-montserrat">
                         Together We Trust
                     </h4>
 
-                    <h2 class="absolute bottom-[30px] left-[36px] text-white text-[20px] font-montserrat font-bold">
+                    <h2 class="absolute bottom-7.5 left-9 text-white text-[20px] font-montserrat font-bold">
                         Belajar perlahan, tumbuh bersama, dalam setiap jejak kecil.
                     </h2>
 
