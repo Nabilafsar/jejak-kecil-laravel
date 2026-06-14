@@ -12,7 +12,19 @@ use App\Http\Controllers\Pengguna\ProfilController;
 
 Route::get('/', function () {
     return view('about');
-});
+})->name('about');
+
+Route::get('/service', function () {
+    return view('service');
+})->name('service');
+ 
+Route::get('/mentor', function () {
+    return view('mentor');
+})->name('mentor');
+ 
+// Route::get('/contact', function () {
+//     return view('contact');
+// })->name('contact');
 
 Route::get('/register', function () {
     return view('auth.register');
